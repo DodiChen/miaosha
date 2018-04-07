@@ -7,10 +7,9 @@ public class SuccessKilled {
 	private long seckillId;
 	private long userPhone;
 	private short state;
-	private Date createDate;
+	private Date createTime;
 	
-	// ��ͨ
-	// ���һ
+	//多对一,因为一件商品在库存中有很多数量，对应的购买明细也有很多。
 	private Seckill seckill;
 	
 	public long getSeckillId() {
@@ -31,11 +30,11 @@ public class SuccessKilled {
 	public void setState(short state) {
 		this.state = state;
 	}
-	public Date getCreateDate() {
-		return createDate;
+	public Date getCreateTime() {
+		return createTime;
 	}
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
+	public void setCreateTime(Date createDate) {
+		this.createTime = createDate;
 	}
 	
 	public Seckill getSeckill() {
@@ -47,7 +46,7 @@ public class SuccessKilled {
 	@Override
 	public String toString() {
 		return "SuccessKilled [seckillId=" + seckillId + ", userPhone=" + userPhone + ", state=" + state
-				+ ", createDate=" + createDate + "]";
+				+ ", createTime=" + createTime + ", seckill=" + seckill + "]";
 	}
 	
 }

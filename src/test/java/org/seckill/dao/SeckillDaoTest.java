@@ -30,7 +30,6 @@ public class SeckillDaoTest {
 		Date killTime = new Date();
 		int result = seckillDao.reduceNumber(1000L, killTime);
 		System.out.println(result);
-		
 	}
 	
 	@Test
