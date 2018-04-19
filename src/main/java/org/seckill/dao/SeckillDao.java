@@ -21,7 +21,7 @@ public interface SeckillDao {
      * @param seckillId
      * @return
      */
-	Seckill queryById(long seckillId);
+	Seckill queryById(@Param("seckillId") long seckillId);
 	
 	/**
      * 根据id查询秒杀的商品信息
