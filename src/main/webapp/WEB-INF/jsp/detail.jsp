@@ -78,7 +78,7 @@
 		$(function(){
 			// 使用EL表达式传入参数
 			seckill.detail.init({
-				seckillId: ${seckill.id},
+				seckillId: ${seckill.seckillId},
 				startTime: ${seckillstartTime.time}, 
 				endTime: ${seckill.endTime.time} 
 			});
