@@ -42,7 +42,7 @@ var seckill = {
 						leyboard:false
 					});
 					$('#killPhoneBtn').click(function(){
-						var inputPhone = $('killPhone').val();
+						var inputPhone = $('#killPhoneKey').val();
 						if(!seckill.validatePhone(killPhone)){
 							//电话写入cookie
 							$.cookie('killPhone', inputPhone, {expires:7, path:'/seckill'});

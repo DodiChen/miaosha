@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
 <!-- 引入 jstl -->
 <%@include file="common/tag.jsp" %>
 <!DOCTYPE html>
@@ -28,7 +28,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="sk" items="${list} }">
+						<c:forEach var="sk" items="${list}">
 							<tr>
 								<th>${sk.name} </th>
 								<th>${sk.number }</th>
@@ -42,7 +42,7 @@
 									<fmt:formatDate value="${sk.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 								</th>
 								<th>
-									<a class="btn btn-info" href="/seckill/${sk.seckillId}/detail">link</a>
+									<a class="btn btn-info" href="../seckill/${sk.seckillId}/detail">link</a>
 								</th>
 							</tr>
 						</c:forEach>

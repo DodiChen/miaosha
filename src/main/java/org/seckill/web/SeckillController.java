@@ -32,7 +32,7 @@ public class SeckillController {
 	private SeckillService seckillService;
 	
 	
-	@RequestMapping(name="/list", method=RequestMethod.GET)
+	@RequestMapping(value="/list", method=RequestMethod.GET)
 	public String list(Model model) {
 		// list.jsp + model = ModelAndView
 		List<Seckill> list = seckillService.getSeckillList();
@@ -40,7 +40,7 @@ public class SeckillController {
 		return "list"; // /WEB-INF/jsp/list.jsp
 	}
 	
-	@RequestMapping(name="/{seckillId}/detail", method=RequestMethod.GET)
+	@RequestMapping(value="/{seckillId}/detail", method=RequestMethod.GET)
 	public String detail(@PathVariable("seckillId") Long seckillId, Model model) {
 		
 		if(seckillId == null) {
@@ -55,11 +55,11 @@ public class SeckillController {
 	}
 	
 	//ajax, 返回json
-	@RequestMapping(name="/{seckillId}/exposer", 
+	@RequestMapping(value="/{seckillId}/exposer", 
 			method=RequestMethod.POST,
-			produces = "{application/json;charset=UTF-8}")
+			produces = "application/json;charset=UTF-8")
 	@ResponseBody //  返回类型是json
-	public SeckillResult<Exposer> exposer(Long seckillId) {
+	public SeckillResult<Exposer> exposer(@PathVariable("seckillId") Long seckillId) {
 		SeckillResult<Exposer> result;
 		try {
 			Exposer exposer = seckillService.exportSeckillUrl(seckillId);
@@ -70,7 +70,7 @@ public class SeckillController {
 		return result;
 	}
 	
-	@RequestMapping(name="/{seckillId}/{md5}/execution",
+	@RequestMapping(value="/{seckillId}/{md5}/execution",
 			method=RequestMethod.POST,
 			produces="application/json; charset=UTF-8")
 	public SeckillResult<SeckillExecution> execute(

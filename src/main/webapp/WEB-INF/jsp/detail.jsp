@@ -1,5 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<!-- 引入 jstl -->
+<%@include file="common/tag.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,50 +12,46 @@
 
 	<div class="container">
 		<div class="panel panel-default text-center">
-			<div class="pannel-heading">${seckill.name}</div>
-		</div>
-		<div class="panel-body">
-			<h2 class="text-danger">
-				<!--显示time图标-->
-				<span class="glyphicon glyphicon-time"></span>
-				<!--展示倒计时-->
-				<span class="glyphicon" id="seckill-box"></span>
-			</h2>
+			<div class="panel-heading">
+				<h1>${seckill.name}</h1>
+			</div>
+			<div class="panel-body">
+				<h2 class="text-danger">
+					<!-- display time icon -->
+					<span class="glyphicon glyphicon-time"></span>
+					<!-- show the countdown -->
+					<span class="glyphicon" id="seckill-box"></span>
+				</h2>
+			</div>
 		</div>
 	</div>
-
-	<!--登录弹出层 输入电话-->
+	<!-- login pop-up layer,input phone number -->
 	<div id="killPhoneModal" class="modal fade">
-
 		<div class="modal-dialog">
-
 			<div class="modal-content">
 				<div class="modal-header">
 					<h3 class="modal-title text-center">
-						<span class="glyphicon glyphicon-phone"> </span>秒杀电话:
+						<span class="glyphicon glyphicon-phone"></span>seckill phone
+						number:
 					</h3>
 				</div>
-
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-xs-8 col-xs-offset-2">
 							<input type="text" name="killPhone" id="killPhoneKey"
-								placeholder="填写手机号^o^" class="form-control">
+								placeholder="please input phone number" class="form-control" />
 						</div>
 					</div>
 				</div>
-
-				<div class="modal-footer">
-					<!--验证信息-->
-					<span id="killPhoneMessage" class="glyphicon"> </span>
-					<button type="button" id="killPhoneBtn" class="btn btn-success">
+				<div class="modal-footer text-center">
+					<!-- validate information -->
+					<span id="killPhoneMessage" class="glyphicon"></span>
+					<button type="button" id="killPhoneBtn" class="btn  btn-success">
 						<span class="glyphicon glyphicon-phone"></span> Submit
 					</button>
 				</div>
-
 			</div>
 		</div>
-
 	</div>
 
 
@@ -71,17 +69,18 @@
 <!--jQuery countDown倒计时插件-->
 <script
 	src="https://cdn.bootcss.com/jquery.countdown/2.2.0/jquery.countdown.min.js"></script>
-	
-	<!-- 开始编写交互逻辑 -->
-	<script type="text/javascript" src="/resource/script/seckill.js"></script>
-	<script type="text/javascript">
-		$(function(){
-			// 使用EL表达式传入参数
-			seckill.detail.init({
-				seckillId: ${seckill.seckillId},
-				startTime: ${seckillstartTime.time}, 
-				endTime: ${seckill.endTime.time} 
-			});
-		});
-	</script>
+
+<!-- 开始编写交互逻辑 -->
+<script type="text/javascript" src="../../resources/script/seckill.js"></script>
+<script type="text/javascript">
+    $(function(){
+       //using el expression incoming parameters
+        seckill.detail.init({
+           seckillId:${seckill.seckillId},
+            startTime:${seckill.startTime.time},
+            endTime:${seckill.endTime.time},
+            createTime:${seckill.createTime.time}
+        });
+    });
+</script>
 </html>

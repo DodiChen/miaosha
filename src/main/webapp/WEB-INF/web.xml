@@ -1,16 +1,21 @@
-<web-app xmlns="http://java.sun.com/xml/ns/javaee"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-                      http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-  version="3.0"
-  metadata-complete="true">
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   
-  <!-- 修改servlet 版本为3.0 -->
-  
+  <!-- 修改servlet 版本为3.1 --> 
+  <!-- 处理中文乱码 -->
+  <filter>  
+        <filter-name>encodingFilter</filter-name>  
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>  
+        <async-supported>true</async-supported>  
+        <init-param>  
+            <param-name>encoding</param-name>  
+            <param-value>UTF-8</param-value>  
+        </init-param>  
+    </filter>  
   
   <!-- 配置DispatcherServlet -->
   <servlet>
-  	<servlet-name>servletdispatcher</servlet-name>
+  	<servlet-name>appdispatcher</servlet-name>
   	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
   	<!-- 配置SpringMVC需要加载的配置文件
   		spring-dao.xml, spring-service.xml, spring-web.xml
@@ -21,7 +26,7 @@
   	</init-param>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>servletdispatcher</servlet-name>
+  	<servlet-name>appdispatcher</servlet-name>
   	<!-- 默认匹配所有的请求 -->
   	<url-pattern>/</url-pattern>
   </servlet-mapping>
