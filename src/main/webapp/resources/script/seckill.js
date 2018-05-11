@@ -6,7 +6,9 @@
 var seckill = {
 		// 封装秒杀相关aiax的url
 		URL: {
-			
+			now : function(){
+				return '/seckill/seckill/time/now';
+			}
 		},
 		//验证手机号
 		validatePhone: function(phone){
@@ -14,6 +16,38 @@ var seckill = {
 				return true;
 			}else{
 				return false;
+			}
+		},
+		
+		//处理秒杀逻辑
+		handleSeckillKill: function(){
+			
+		},
+		
+		// 计时操作
+		countdown:function(seckillId, nowTime, startTime, endTime){
+			
+			var seckillBox = $('#seckill-box');
+			
+			// 时间判断
+			if(nowTime > endTime){
+				// 秒杀结束
+				seckillBox.html('秒杀结束!');
+			}else if(nowTime < startTime){
+				// 秒杀未开始，计时时间绑定
+				var killTime = new Date(startTime + 1000); // 加1S，防止时间偏移
+				seckillBox.countdown(killTime, function(event){
+					// 控制时间格式
+					var format = event.strftime('秒杀倒计时: %D天 %H时 %M分 %S秒');
+					seckillBox.html(format);
+				}).on('finish.countdown', function(){
+					// 时间完成后回调事件
+					// 获取秒杀地址，控制显示逻辑，执行秒杀
+					seckill.handleSeckillKill();
+				});
+			}else{
+				//秒杀开始
+				seckill.handleSeckillKill();
 			}
 		},
 		// 详情页秒杀逻辑
@@ -50,6 +84,16 @@ var seckill = {
 							window.location.reload();
 						}else{
 							$('#killPhoneMessage').hide().html('<label class="label label-danger">手机号错误</label>').show(300);
+						}
+					});
+				}else{
+					// 已经登录
+					// 计时交互
+					$.get(seckill.URL.now(), {}, function(result){
+						if(result && result['success']){
+							seckill.countdown(seckillId, result.data, startTime, endTime);
+						}else{
+							console.log('result' + result);
 						}
 					});
 				}
