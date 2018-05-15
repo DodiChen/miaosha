@@ -8,6 +8,12 @@ var seckill = {
 		URL: {
 			now : function(){
 				return '/seckill/seckill/time/now';
+			},
+			exposer: function(seckillId){
+				return '/seckill/seckill/' + seckillId + '/exposer'
+			},
+			execution: function(seckillId, md5){
+				return '/seckill/seckill/' + seckillId + '/' + md5 + '/execution'
 			}
 		},
 		//验证手机号
@@ -20,8 +26,48 @@ var seckill = {
 		},
 		
 		//处理秒杀逻辑
-		handleSeckillKill: function(){
-			
+		handleSeckillKill: function(seckillId, node){
+			// 获取秒杀地址，控制显示逻辑，执行秒杀
+			node.hide()
+				.html('<button class="btn btn-primary btn-lg" id="killBtn">开始秒杀</button>');
+			$.post(seckill.URL.exposer(seckillId), {}, function(result){
+				//在回调函数中，执行交互流程
+				if(result && result['success']){
+					var exposer = result['data'];
+					if(exposer['exposed']){
+						// 开启秒杀
+						// 获取秒杀的地址
+						var md5 = exposer['md5']
+						var killUrl = seckill.URL.execution(seckillId, md5);
+						console.log('killUrl: ' + killUrl)
+						$('#killBtn').one('click', function(){
+							// 执行秒杀请求的操作
+							// 先禁用按钮
+							$(this).addClass('disabled')
+							// 发送秒杀请求执行秒杀
+							$.post(killUrl, {}, function(result){
+								if(result){
+									var killResult = result['data']
+									var state = killResult['state']
+									var stateInfo = killResult['stateInfo']
+									// 显示秒杀结果
+									node.html('<span class="label label-success">' + stateInfo + '</span>')
+									
+								}
+							})
+						})
+						node.show()
+					}else{
+						// 未开启秒杀
+						var now = exposer['now']
+						var start = exposer['start']
+						var end = exposer['end']
+						seckill.countdown(seckillId, now, start, end)
+					}
+				}else{
+					console.log('result:' + result);
+				}
+			})
 		},
 		
 		// 计时操作
@@ -43,11 +89,11 @@ var seckill = {
 				}).on('finish.countdown', function(){
 					// 时间完成后回调事件
 					// 获取秒杀地址，控制显示逻辑，执行秒杀
-					seckill.handleSeckillKill();
+					seckill.handleSeckillKill(seckillId, seckillBox);
 				});
 			}else{
 				//秒杀开始
-				seckill.handleSeckillKill();
+				seckill.handleSeckillKill(seckillId, seckillBox);
 			}
 		},
 		// 详情页秒杀逻辑

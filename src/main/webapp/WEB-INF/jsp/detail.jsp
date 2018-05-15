@@ -82,5 +82,5 @@
             createTime:${seckill.createTime.time}
         });
     });
-</script>
+</script> 	
 </html>
