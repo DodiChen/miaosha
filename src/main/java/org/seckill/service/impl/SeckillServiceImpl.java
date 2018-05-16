@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.seckill.dao.SeckillDao;
 import org.seckill.dao.SuccessKilledDao;
+import org.seckill.dao.cache.RedisDao;
 import org.seckill.dto.Exposer;
 import org.seckill.dto.SeckillExecution;
 import org.seckill.entity.Seckill;
@@ -35,6 +36,9 @@ public class SeckillServiceImpl implements SeckillService {
 	@Autowired
 	private SuccessKilledDao successKilledDao;
 	
+	@Autowired
+	private RedisDao redisDao;
+	
 	// 加入一个混淆的概念
 	// 不希望用户猜到我们的结果
 	// md5混淆字符串，用于混淆md5
@@ -51,9 +55,25 @@ public class SeckillServiceImpl implements SeckillService {
 	}
 
 	public Exposer exportSeckillUrl(long seckillId) {
-		Seckill seckill = seckillDao.queryById(seckillId);
+		// 优化点: 缓存优化, 一致性维护在 超时的基础上
+		/**
+		 * get from cache
+		 * if null
+		 * 	get db
+		 * else
+		 * 	put cache
+		 */
+		// 1: 访问reids
+		Seckill seckill = redisDao.getSeckill(seckillId);
 		if (seckill == null){
-			return new Exposer(false, seckillId);
+			// 2:访问数据库
+			seckill = seckillDao.queryById(seckillId);
+			if(seckill == null){
+				return new Exposer(false, seckillId);
+			}else{
+				// 3: 放入redis
+				redisDao.putSeckill(seckill);
+			}
 		}
 		Date startTime = seckill.getStartTime();
 		Date endTime = seckill.getEndTime();
