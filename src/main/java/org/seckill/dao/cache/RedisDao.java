@@ -1,13 +1,12 @@
 package org.seckill.dao.cache;
 
-import org.seckill.entity.Seckill;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.dyuproject.protostuff.LinkedBuffer;
 import com.dyuproject.protostuff.ProtostuffIOUtil;
 import com.dyuproject.protostuff.runtime.RuntimeSchema;
-
+import org.seckill.entity.Seckill;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -70,5 +69,5 @@ public class RedisDao {
 		}
 		return null;
 	}
-	
+
 }
